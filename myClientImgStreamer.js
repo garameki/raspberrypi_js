@@ -7,7 +7,7 @@ Usage:
 
 	2.Add myClientImgStreamer.initialize() within the event function 'onload'.
 
-	3:Set idElement in this source to be added in order to show video in it
+	3:Set idParent in this source to be added in order to show video in it
 
 	finally:Do myClientImgStreamer.close()
 
@@ -77,11 +77,12 @@ SOFTWARE.
 	/*
 	 * Method : open
 	 *	Usage:
-	 *		myClientImgStreamer.open(sUrl,nPort,sId)
+	 *		myClientImgStreamer.open(sUrl,nPort,sIdParent,sIdImage)
 	 *	Args:
 	 *		(String) sUrl : ws://~
 	 *		(Number) nPort : 4000
-	 *		(String) sId : Name of Element to show video
+	 *		(String) sIdParent : ID of Element to attach Image Tag
+	 *		(String) sIdImage : ID of Element to show video
 	 *	Example:
 	 *		myClientImgStreamer.open('ws://example.com',4000,'temp')
 	 *	Explanation:
@@ -103,53 +104,53 @@ SOFTWARE.
 //	Object.defineProperty(myClientImgStreamer,'',{value:,enumerable:true,writable:false,configurable:false})
 
 	let ws = null;
-	let idImg;
+	let elementImage;
+	let elementParent;
 
-	function open(sUrl,nPort,sId) {
+	function open(sUrl,nPort,sIdParent,sIdImage) {
 
-		idImg = sId;
-
-		if(ws != null){
-
+		if(ws == null){
 			/* add img element into arbiteral element as id selected */
-			const img = document.createElement('img');
-			img.id = idImg;
-			document.getElementById(idElement).appendChild(img);
-			ws = new WebSocket(sUrl+":"+String(port));// Connect to Web Socket
+			elementImage = document.createElement('img');
+			elementImage.id = sIdImage;
+			elementParent = document.getElementById(sIdParent);
+			elementParent.appendChild(elementImage);
+			ws = new WebSocket(sUrl+":"+String(nPort));// Connect to Web Socket
 
 			/* Set event handlers */
 			ws.onopen = function() {
-				output("onopen");
+				_output("onopen");
 	//認証for authorization			ws.send('id:co6');
 			};
 			ws.onmessage = function(e) {
 				// e.data contains received string.
-				// output("onmessage: " + e.data);
-				img.src="data:img/jpg;base64,"+e.data;
+				// _output("onmessage: " + e.data);
+				elementImage.src="data:img/jpg;base64,"+e.data;
 			};
 			ws.onclose = function() {
-				output("onclose");
+				_output("onclose");
 			};
 			ws.onerror = function(e) {
-				output("onerror");
+				_output("onerror");
 				console.log(e)
 			};
-			function output(str) {
-	//			var log = document.getElementById("log");
-	//			var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
-	//			replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
-	//			log.innerHTML = escaped + "<br>" + log.innerHTML;
-			};
 		}else{
-			console.error("ws is already opend in myClientImgStreamer");
+			alert("ws is already opened in myClientImgStreamer");
 		}
 	};
 	function close() {
 		if(ws != null){
 			ws.close();
 			ws = null;
-			const img = document.getElementById(idImg);
-			img.parentNode.removeChild(img);
+			elementParent.removeChild(elementImage);
+		}else{
+			console.log("ws is already closed in myClientImgStreamer");
 		}
+	};
+	function _output(str) {
+//		var log = document.getElementById("log");
+//		var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
+//		replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
+//		log.innerHTML = escaped + "<br>" + log.innerHTML;
 	};
 })();    
