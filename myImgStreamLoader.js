@@ -74,52 +74,75 @@ SOFTWARE.
 
 (function(){
 
-	/* You must set */
-	const idElement = 'museum';// element ID to show video
-
+	/*
+	 * Method : open
+	 *	Usage:
+	 *		myImgStreamLoader.open(sUrl,nPort,sId)
+	 *	Args:
+	 *		(String) sUrl : ws://~
+	 *		(Number) nPort : 4000
+	 *		(String) sId : Name of Element to show video
+	 *	Example:
+	 *		myImgStreamLoader.open('ws://example.com',4000,'temp')
+	 *	Explanation:
+	 *		It can't be opened with TLS protocol
+	 *
+	 * Method : close
+	 *	Usage:
+	 *		myImgStreamLoader.close()
+	 *	Explanation:
+	 *		Must be involved this method within window.onunload function.
+	 */
 
 
 	/* global */
 	myImgStreamLoader = { };
 
-	Object.defineProperty(myImgStreamLoader,'initialize',{value:initialize,enumerable:true,writable:false,configurable:false})
+	Object.defineProperty(myImgStreamLoader,'open',{value:open,enumerable:true,writable:false,configurable:false})
 	Object.defineProperty(myImgStreamLoader,'close',{value:close,writable:false,enumerable:true,configurable:false})
 //	Object.defineProperty(myImgStreamLoader,'',{value:,enumerable:true,writable:false,configurable:false})
 
 	let ws = null;
 	const idImg = 'img_myImgStreamLoader';
 
-	function initialize() {
+	function open(sUrl,nPort,sId) {
 
-		/* add img element into arbiteral element as id selected */
-		const img = document.createElement('img');
-		img.id = idImg;
-		document.getElementById(idElement).appendChild(img);
-		ws = new WebSocket("ws://raspberrypi.garameki.com:8801/");// Connect to Web Socket
+		idImg = sId;
 
-		/* Set event handlers */
-		ws.onopen = function() {
-			output("onopen");
-//認証for authorization			ws.send('id:co6');
-		};
-		ws.onmessage = function(e) {
-			// e.data contains received string.
-			// output("onmessage: " + e.data);
-			img.src="data:img/jpg;base64,"+e.data;
-		};
-		ws.onclose = function() {
-			output("onclose");
-		};
-		ws.onerror = function(e) {
-			output("onerror");
-			console.log(e)
-		};
-		function output(str) {
-//			var log = document.getElementById("log");
-//			var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
-//			replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
-//			log.innerHTML = escaped + "<br>" + log.innerHTML;
-		};
+		if(ws != null){
+
+			/* add img element into arbiteral element as id selected */
+			const img = document.createElement('img');
+			img.id = idImg;
+			document.getElementById(idElement).appendChild(img);
+			ws = new WebSocket("ws://raspberrypi.garameki.com:8801/");// Connect to Web Socket
+
+			/* Set event handlers */
+			ws.onopen = function() {
+				output("onopen");
+	//認証for authorization			ws.send('id:co6');
+			};
+			ws.onmessage = function(e) {
+				// e.data contains received string.
+				// output("onmessage: " + e.data);
+				img.src="data:img/jpg;base64,"+e.data;
+			};
+			ws.onclose = function() {
+				output("onclose");
+			};
+			ws.onerror = function(e) {
+				output("onerror");
+				console.log(e)
+			};
+			function output(str) {
+	//			var log = document.getElementById("log");
+	//			var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
+	//			replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
+	//			log.innerHTML = escaped + "<br>" + log.innerHTML;
+			};
+		}else{
+			console.error("ws is already opend in myImgStreamLoader");
+		}
 	};
 	function close() {
 		if(ws != null){
