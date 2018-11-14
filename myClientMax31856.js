@@ -75,9 +75,9 @@ SOFTWARE.
 	let ws = null;
 	let idElement;
 
-	function open(sUrl,nPort,sId) {
+	function open(nPort,sUrl,sId) {
 
-		idElement = id;
+		idElement = sId;
 
 		// Connect to Web Socket
 		if(ws == null){

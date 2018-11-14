@@ -77,10 +77,10 @@ SOFTWARE.
 	/*
 	 * Method : open
 	 *	Usage:
-	 *		myClientImgStreamer.open(sUrl,nPort,sIdParent,sIdImage)
+	 *		myClientImgStreamer.open(nPort,sUrl,sIdParent,sIdImage)
 	 *	Args:
-	 *		(String) sUrl : ws://~
 	 *		(Number) nPort : 4000
+	 *		(String) sUrl : ws://~
 	 *		(String) sIdParent : ID of Element to attach Image Tag
 	 *		(String) sIdImage : ID of Element to show video
 	 *	Example:
@@ -107,12 +107,11 @@ SOFTWARE.
 	let elementImage;
 	let elementParent;
 
-	function open(sUrl,nPort,sIdParent,sIdImage) {
+	function open(nPort,sUrl,sIdParent) {
 
 		if(ws == null){
 			/* add img element into arbiteral element as id selected */
 			elementImage = document.createElement('img');
-			elementImage.id = sIdImage;
 			elementParent = document.getElementById(sIdParent);
 			elementParent.appendChild(elementImage);
 			ws = new WebSocket(sUrl+":"+String(nPort));// Connect to Web Socket
