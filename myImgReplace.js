@@ -1,16 +1,21 @@
 (function(){
-
-	/* Tag name must be selected from h3,h4...or h*. */
-	const tagElement = 'h4';
-
+	/*
+	 * Usage:
+	 *	myImgReplace.replace(tagH);
+	 *
+	 * Argument:
+	 *	tagH : 'h3','h4','h5' or 'hN'
+	 *		Here N  is an integer as you like 
+	 *
+	 */
 
 	/* global */
 	myImgReplace = { };
 
 	/* define method */
-	Object.defineProperty(myImgReplace,'replace',{value:replace,writable:false,enumerable:false,configrable:false});
+	Object.defineProperty(myImgReplace,'replace',{value:replace,writable:false,enumerable:false,configurable:false});
 
-	function replace(){
+	function replace(tagH){
 		var elements = document.getElementsByTagName('img');
 		var nn = elements.length;
 		var element,rights,right,eH,eParent;
