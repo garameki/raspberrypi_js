@@ -115,6 +115,7 @@ SOFTWARE.
 			ws = null;
 		}else{
 			console.error("ws is already closed in myClientMax31856");
+		}
 	};
 
 	function _output(str) {
