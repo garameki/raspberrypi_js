@@ -52,31 +52,36 @@ SOFTWARE.
 (function(){
 
 	/*
-	 * Usage:
-	 *	myClientMax31856.open(url,port,idElement')
-	 *Args:
-	 *	url : involve ws:// being able to use non-secure protocol only
-	 *	port : port number ,for example 4000
-	 *	idElement : ID of specific element to show temperature as String
+	 * Method : open
+	 *	Usage:
+	 *		myClientMax31856.open(sUrl,nPort,sId)
+	 *	Args:
+	 *		sUrl : involve ws:// being able to use non-secure protocol only
+	 *		sPort : port number ,for example 4000
+	 *		sId : ID of specific element to show temperature as String
+	 *	Expample:
+	 *		myClientMax31856.open('ws://www.example.com',4000,'hogeElement')
+	 *
 	 */
 
 	/* global */
 	myClientMax31856 = { };
 
 	/* methods */
-	Object.defineProperty(myClientMax31856,'open',{value:open,writable:false,enumerable:false,configurable;false});
-	Object.defineProperty(myClientMax31856,'close',{value:close,writable:false,enumerable:false,configurable;false});
+	Object.defineProperty(myClientMax31856,'open',{value:open,writable:false,enumerable:false,configurable:false});
+	Object.defineProperty(myClientMax31856,'close',{value:close,writable:false,enumerable:false,configurable:false});
+//	Object.defineProperty(myClientMax31856,'',{value:,writable:false,enumerable:false,configurable:false});
 
 	let ws = null;
 	let idElement;
 
-	function open(url,port,id) {
+	function open(sUrl,nPort,sId) {
 
 		idElement = id;
 
 		// Connect to Web Socket
 		if(ws == null){
-			ws = new WebSocket(url+':'+port);
+			ws = new WebSocket(sUrl+':'+String(nPort));
 
 			// Set event handlers.
 			ws.onopen = function() {

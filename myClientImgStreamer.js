@@ -5,17 +5,17 @@ Usage:
 	1.Add a line below within a html 'HEAD' element.
 		<script type="application/javascript" src="THIS FILE"></script>
 
-	2.Add myImgStreamLoader.initialize() within the event function 'onload'.
+	2.Add myClientImgStreamer.initialize() within the event function 'onload'.
 
 	3:Set idElement in this source to be added in order to show video in it
 
-	finally:Do myImgStreamLoader.close()
+	finally:Do myClientImgStreamer.close()
 
 		When the page is shutting down, 
-			call myImgStreamLoader.close() in the event like 'onresume' to make 'websocket keep-alive connection' break normaly.
+			call myClientImgStreamer.close() in the event like 'onresume' to make 'websocket keep-alive connection' break normaly.
 		For example:
 			onresume = function(){
-				myImgStreamLoader.close();//<--add this line in the resume event function
+				myClientImgStreamer.close();//<--add this line in the resume event function
 			};
 */});
 
@@ -77,33 +77,33 @@ SOFTWARE.
 	/*
 	 * Method : open
 	 *	Usage:
-	 *		myImgStreamLoader.open(sUrl,nPort,sId)
+	 *		myClientImgStreamer.open(sUrl,nPort,sId)
 	 *	Args:
 	 *		(String) sUrl : ws://~
 	 *		(Number) nPort : 4000
 	 *		(String) sId : Name of Element to show video
 	 *	Example:
-	 *		myImgStreamLoader.open('ws://example.com',4000,'temp')
+	 *		myClientImgStreamer.open('ws://example.com',4000,'temp')
 	 *	Explanation:
 	 *		It can't be opened with TLS protocol
 	 *
 	 * Method : close
 	 *	Usage:
-	 *		myImgStreamLoader.close()
+	 *		myClientImgStreamer.close()
 	 *	Explanation:
 	 *		Must be involved this method within window.onunload function.
 	 */
 
 
 	/* global */
-	myImgStreamLoader = { };
+	myClientImgStreamer = { };
 
-	Object.defineProperty(myImgStreamLoader,'open',{value:open,enumerable:true,writable:false,configurable:false})
-	Object.defineProperty(myImgStreamLoader,'close',{value:close,writable:false,enumerable:true,configurable:false})
-//	Object.defineProperty(myImgStreamLoader,'',{value:,enumerable:true,writable:false,configurable:false})
+	Object.defineProperty(myClientImgStreamer,'open',{value:open,enumerable:true,writable:false,configurable:false})
+	Object.defineProperty(myClientImgStreamer,'close',{value:close,writable:false,enumerable:true,configurable:false})
+//	Object.defineProperty(myClientImgStreamer,'',{value:,enumerable:true,writable:false,configurable:false})
 
 	let ws = null;
-	const idImg = 'img_myImgStreamLoader';
+	let idImg;
 
 	function open(sUrl,nPort,sId) {
 
@@ -115,7 +115,7 @@ SOFTWARE.
 			const img = document.createElement('img');
 			img.id = idImg;
 			document.getElementById(idElement).appendChild(img);
-			ws = new WebSocket("ws://raspberrypi.garameki.com:8801/");// Connect to Web Socket
+			ws = new WebSocket(sUrl+":"+String(port));// Connect to Web Socket
 
 			/* Set event handlers */
 			ws.onopen = function() {
@@ -141,7 +141,7 @@ SOFTWARE.
 	//			log.innerHTML = escaped + "<br>" + log.innerHTML;
 			};
 		}else{
-			console.error("ws is already opend in myImgStreamLoader");
+			console.error("ws is already opend in myClientImgStreamer");
 		}
 	};
 	function close() {
