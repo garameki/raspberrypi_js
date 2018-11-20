@@ -27,9 +27,14 @@
 	var audioBuffer = context.createBuffer(1,BUFFER_SIZE,context.sampleRate);
 	var source = context.createBufferSource();
 
+	var flag = true;
+
 	/* methods */
 
 	function say(data){
+
+		var flag = true;
+		console.log('test',data);
 
 		try {
 			var binaryArray = _convertBase64ToBinary(data);
@@ -38,22 +43,30 @@
 			console.error("Can't convert. augument must be decoded Base64 strings.");
 			console.error(err);
 			console.log('data=',data);
+			flag = false;
 		}
 
-		context.decodeAudioData(ab).then(function(decodedData) {
-			decodeco = decodedData;
-			var hoge = setInterval(function(){
-				clearInterval(hoge);
-				source.buffer = decodeco;
-				source.connect(context.destination);
-				source.start(0);
-			},100);
+		if(flag){
+			context.decodeAudioData(ab).then(function(decodedData) {
+				decodeco = decodedData;
+				if(flag){
+					flag = false;
+					var hoge = setInterval(function(){
+						clearInterval(hoge);
+						source = context.createBufferSource();
+						source.buffer = decodeco;
+						source.connect(context.destination);
+						source.start(0);
+						flag = true;
+					},10);
+				}
 
-		},function(err){
-			console.error('Decode error in AudioContext.decodeAudioData()');
-			console.error(err);
-			console.log(ab);
-		});
+			},function(err){
+				console.error('Decode error in AudioContext.decodeAudioData()');
+				console.error(err);
+				console.log(ab);
+			});
+		}
 
 	};
 
