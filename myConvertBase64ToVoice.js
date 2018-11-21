@@ -25,7 +25,7 @@
 	var context = new AudioContext();
 	var BUFFER_SIZE = context.sampleRate * nn;
 	var audioBuffer = context.createBuffer(1,BUFFER_SIZE,context.sampleRate);
-	var source = context.createBufferSource();
+	var source;// = context.createBufferSource();//毎回生成
 
 	var flag = true;
 
