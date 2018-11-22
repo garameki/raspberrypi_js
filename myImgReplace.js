@@ -18,13 +18,15 @@
 	/* global */
 	myImgReplace = { };
 
+	/* inner variable */
+	const flagDebug = false;
+
 	/* define method */
 	Object.defineProperty(myImgReplace,'replace',{value:replace,writable:false,enumerable:false,configurable:false});
 
 	function replace(sTagH){
 		if(sTagH.match(/h1|h2|h3|h4|h5|h6|h7|h7|h9|h10/)){
-			console.log('image to h');
-
+			if(flagDebug)console.log('image to h');
 		}else{
 			console.log('expect H tag:'+sTagH+' is not so.');
 		}
@@ -44,7 +46,8 @@
 			rights = element.outerHTML.match(/right="([^"]*)"/);
 			if(rights != null) if(rights.length == 2) right = rights[1];
 			kind = element.outerHTML.match(/kind="([^"]*)"/);
-			console.log(kind);
+			if(flagDebug)console.log('right=',right);
+			if(flagDebug)console.log('kind=',kind);
 			/* img を h に置き換えるかどうかの判定 (kindプロパティー) */
 			if(kind == null){
 				way = DOEXCHANGE;
@@ -60,6 +63,7 @@
 					way = DOEXCHANGE;
 				}
 			}
+			if(flagDebug)console.log('way=',way);
 			switch(way){
 				case DONOTHING:
 					/* 画像がkind='icon'と指定されていた場合*/
