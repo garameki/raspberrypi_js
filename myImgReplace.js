@@ -1,10 +1,10 @@
 (function(){
 	/*
 	 * Usage:
-	 *	myImgReplace.replace(tagH);
+	 *	myImgReplace.replace(sTagH);
 	 *
 	 * Argument:
-	 *	tagH : 'h3','h4','h5' or 'hN'
+	 *	(String) sTagH : 'h3','h4','h5' or 'hN'
 	 *		Here N  is an integer as you like 
 	 *
 	 */
@@ -15,7 +15,12 @@
 	/* define method */
 	Object.defineProperty(myImgReplace,'replace',{value:replace,writable:false,enumerable:false,configurable:false});
 
-	function replace(tagH){
+	function replace(sTagH){
+		if(sTagH.match(/h1|h2|h3|h4|h5|h6|h7|h7|h9|h10/)){
+
+		}else{
+			console.log('expect H tag:'+sTagH+' is not so.');
+		}
 		var elements = document.getElementsByTagName('img');
 		var nn = elements.length;
 		var element,rights,right,eH,eParent;
@@ -31,7 +36,7 @@
 			console.log(kind);
 			if(kind != null) if(kind.length == 2) if(kind[1] != 'icon'){
 				/* 画像が一般の場合 */
-				eH = document.createElement(tagElement);
+				eH = document.createElement(sTagH);
 				eH.style.backgroundImage = 'url("__URL__")'.replace('__URL__',element.src);
 				eH.style.width = element.width+'px';
 				eH.style.height = element.height + 'px';
