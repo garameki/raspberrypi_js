@@ -51,10 +51,10 @@
 			}else{
 				if(kind.length == 2){
 					if(kind[1] == 'icon') way = DONOTHING;
-					elsif(kind[1] == 'icon') way = DONOTHING;
-					elsif(kind[1] == 'icon') way = DONOTHING;
-					elsif(kind[1] == 'icon') way = DONOTHING;
-					elsif(kind[1] == 'icon') way = DONOTHING;
+					else if(kind[1] == 'icon') way = DONOTHING;
+					else if(kind[1] == 'icon') way = DONOTHING;
+					else if(kind[1] == 'icon') way = DONOTHING;
+					else if(kind[1] == 'icon') way = DONOTHING;
 					else way = DOEXCHANGE;
 				}else{
 					way = DOEXCHANGE;
