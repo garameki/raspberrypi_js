@@ -92,7 +92,8 @@
 
 	function _play(data) {
 
-		if(Math.floor(10000*(data.length%4)) != 0 && data.length < 500){
+		/* pp */
+		if(Math.floor(10000*(data.length%4)) != 0 || data.length < 500){
 			console.error("Data length mod 4 is not zero");
 		}else{
 			myConvertBase64ToVoice.say(data);
