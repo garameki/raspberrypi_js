@@ -3,13 +3,15 @@ window.onload = function(){
 
 	centering();
 	window.onresize = centering;
-	adjust_frame_css('counterIframe');
-	adjust_frame_css('humtemIframe');
+//	adjust_frame_css('counterIframe');
+//	adjust_frame_css('humtemIframe');
 	title_deco();
+	//ws と httpは同一マシン上
 	myClientMax31856.open(9801,'ws://garameki.com','temperatureMax31856');
+	//myClientMax31856.open(9801,'ws://192.168.3.6','temperatureMax31856');
 	myClientImgStreamer.open(8801,'ws://garameki.com','museum');
+	//myClientImgStreamer.open(8801,'ws://192.168.3.6','museum');
 };
-console.log(window);
 window.onclose = function(){
 	alert("browser is about to close 222");
 };
